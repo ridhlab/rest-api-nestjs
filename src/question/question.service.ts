@@ -16,7 +16,7 @@ export class QuestionService {
         private userRepository: Repository<User>,
     ) {}
 
-    async getAllQuestion(filters?: FilterQuestionDto) {
+    async getAllQuestion(filters: FilterQuestionDto) {
         const res = await this.questionRepository.find({
             relations: { user: true },
             where: { ...(filters.userId && { user: { id: filters.userId } }) },
