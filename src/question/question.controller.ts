@@ -13,7 +13,7 @@ import {
 import { Response } from 'express';
 
 import { CreateQuestionDto } from './dtos/CreateQuestion.dto';
-import { FilterQuestionDto } from './dtos/FilterQuestionDto';
+import { FilterQuestionDto } from './dtos/FilterQuestion.dto';
 import { UpdateQuestionDto } from './dtos/UpdateQuestion.dto';
 import { QuestionService } from './question.service';
 
