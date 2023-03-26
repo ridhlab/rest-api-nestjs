@@ -1,28 +1,27 @@
-import { Answer } from 'src/answer/answer,entity';
+import { Question } from 'src/question/question.entity';
 import { User } from 'src/user/user.entity';
 import {
-    Entity,
     Column,
+    Entity,
     CreateDateColumn,
     UpdateDateColumn,
     PrimaryGeneratedColumn,
     ManyToOne,
-    OneToMany,
 } from 'typeorm';
 
 @Entity()
-export class Question {
+export class Answer {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @Column('text')
-    question: string;
+    @Column('longtext')
+    answer: string;
 
-    @ManyToOne(() => User, (user) => user.questions)
+    @ManyToOne(() => User, (user) => user.answers)
     user: User;
 
-    @OneToMany(() => Answer, (answer) => answer.question)
-    answers: Answer[];
+    @ManyToOne(() => Question, (question) => question.answers)
+    question: Question;
 
     @CreateDateColumn()
     createdAt: Date;

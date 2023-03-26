@@ -12,12 +12,27 @@ export class UserService {
     ) {}
 
     async getAllUser() {
-        const res = await this.userRepository.find();
-        return {
-            status: HttpStatus.OK,
-            message: 'Success get users',
-            data: res,
-        };
+        try {
+            const res = await this.userRepository.find();
+            return {
+                status: HttpStatus.OK,
+                message: 'Success get users',
+                data: res,
+            };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getUserById(id: string) {
+        try {
+            const user = await this.userRepository.findOne({
+                where: { id: id },
+            });
+            return user;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async addUser(createUserDto: CreateUserDto) {

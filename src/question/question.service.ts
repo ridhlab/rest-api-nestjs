@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/user.entity';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CreateQuestionDto } from './dtos/CreateQuestion.dto';
 import { FilterQuestionDto } from './dtos/FilterQuestion.dto';
@@ -12,35 +12,42 @@ export class QuestionService {
     constructor(
         @InjectRepository(Question)
         private questionRepository: Repository<Question>,
-        @InjectRepository(User)
-        private userRepository: Repository<User>,
+        private userService: UserService,
     ) {}
 
     async getAllQuestion(filters: FilterQuestionDto) {
-        const res = await this.questionRepository.find({
-            relations: { user: true },
-            where: { ...(filters.userId && { user: { id: filters.userId } }) },
-        });
-        return {
-            status: HttpStatus.OK,
-            message: 'Success get questions',
-            data: res,
-        };
+        try {
+            const res = await this.questionRepository.find({
+                relations: { user: true },
+                where: {
+                    user: { id: filters.userId || undefined },
+                },
+            });
+            return {
+                status: HttpStatus.OK,
+                message: 'Success get questions',
+                data: res,
+            };
+        } catch (error) {
+            throw error;
+        }
     }
 
-    async getQuestionsFromUser(id: string) {
-        const res = await this.questionRepository.find({
-            where: { user: { id } },
-        });
-        console.log({ res });
+    async getQuestionById(id: number) {
+        try {
+            const question = await this.questionRepository.findOne({
+                where: { id: id },
+            });
+            return question;
+        } catch (error) {
+            throw error;
+        }
     }
 
     async createQuestion(createQuestionDto: CreateQuestionDto) {
         try {
             const { userId, ...rest } = createQuestionDto;
-            const user = await this.userRepository.findOne({
-                where: { id: userId },
-            });
+            const user = await this.userService.getUserById(userId);
             if (!user) {
                 throw new HttpException(
                     'User is not valid',

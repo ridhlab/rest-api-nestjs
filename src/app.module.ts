@@ -6,6 +6,8 @@ import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
 import { QuestionModule } from './question/question.module';
 import { Question } from './question/question.entity';
+import { AnswerModule } from './answer/answer.module';
+import { Answer } from './answer/answer,entity';
 
 @Module({
     imports: [
@@ -16,11 +18,12 @@ import { Question } from './question/question.entity';
             username: 'root',
             password: '',
             database: 'quora-clone',
-            entities: [User, Question],
+            entities: [User, Question, Answer],
             synchronize: true,
         }),
         UserModule,
         QuestionModule,
+        AnswerModule,
     ],
     controllers: [AppController],
     providers: [AppService],

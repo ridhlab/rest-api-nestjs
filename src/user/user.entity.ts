@@ -1,3 +1,4 @@
+import { Answer } from 'src/answer/answer,entity';
 import { Question } from 'src/question/question.entity';
 import {
     Entity,
@@ -19,12 +20,15 @@ export class User {
     @Column({ type: 'text', unique: true })
     username: string;
 
+    @OneToMany(() => Question, (question) => question.user)
+    questions: Question[];
+
+    @OneToMany(() => Answer, (answer) => answer.user)
+    answers: Answer[];
+
     @CreateDateColumn()
     createdAt: Date;
 
     @UpdateDateColumn()
     updateddAt: Date;
-
-    @OneToMany(() => Question, (question) => question.user)
-    questions: Question[];
 }

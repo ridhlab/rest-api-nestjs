@@ -22,12 +22,12 @@ export class QuestionController {
     constructor(private questionService: QuestionService) {}
 
     @Get('/')
-    async getAll(@Query() queryInput: FilterQuestionDto) {
+    public async getAll(@Query() queryInput: FilterQuestionDto) {
         return await this.questionService.getAllQuestion(queryInput);
     }
 
     @Post('/create')
-    async create(
+    public async create(
         @Body() createQuestionDto: CreateQuestionDto,
         @Res() response: Response,
     ) {
