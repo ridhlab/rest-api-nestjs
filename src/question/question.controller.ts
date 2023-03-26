@@ -7,11 +7,13 @@ import {
     ParseIntPipe,
     Post,
     Put,
+    Query,
     Res,
 } from '@nestjs/common';
 import { Response } from 'express';
 
 import { CreateQuestionDto } from './dtos/CreateQuestion.dto';
+import { FilterQuestionDto } from './dtos/FilterQuestionDto';
 import { UpdateQuestionDto } from './dtos/UpdateQuestion.dto';
 import { QuestionService } from './question.service';
 
@@ -20,8 +22,8 @@ export class QuestionController {
     constructor(private questionService: QuestionService) {}
 
     @Get('/')
-    async getAll() {
-        return await this.questionService.getAllQuestion();
+    async getAll(@Query() queryInput: FilterQuestionDto) {
+        return await this.questionService.getAllQuestion(queryInput);
     }
 
     @Post('/create')

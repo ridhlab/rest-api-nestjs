@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { Repository } from 'typeorm';
 import { CreateQuestionDto } from './dtos/CreateQuestion.dto';
+import { FilterQuestionDto } from './dtos/FilterQuestionDto';
 import { UpdateQuestionDto } from './dtos/UpdateQuestion.dto';
 import { Question } from './question.entity';
 
@@ -15,13 +16,23 @@ export class QuestionService {
         private userRepository: Repository<User>,
     ) {}
 
-    async getAllQuestion() {
-        const res = await this.questionRepository.find();
+    async getAllQuestion(filters?: FilterQuestionDto) {
+        const res = await this.questionRepository.find({
+            relations: { user: true },
+            where: { ...(filters.userId && { user: { id: filters.userId } }) },
+        });
         return {
             status: HttpStatus.OK,
             message: 'Success get questions',
             data: res,
         };
+    }
+
+    async getQuestionsFromUser(id: string) {
+        const res = await this.questionRepository.find({
+            where: { user: { id } },
+        });
+        console.log({ res });
     }
 
     async createQuestion(createQuestionDto: CreateQuestionDto) {
@@ -47,7 +58,6 @@ export class QuestionService {
                 data: res,
             };
         } catch (error) {
-            console.log({ error });
             throw error;
         }
     }
