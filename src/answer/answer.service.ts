@@ -16,7 +16,7 @@ export class AnswerService {
         private questionService: QuestionService,
     ) {}
 
-    async getAllAnswer(filters: FilterAnswerDto) {
+    async getAll(filters: FilterAnswerDto) {
         try {
             const res = await this.answerRepository.find({
                 relations: { question: true, user: true },
@@ -35,7 +35,7 @@ export class AnswerService {
         }
     }
 
-    async getAnswerById(id: number) {
+    async findOne(id: number) {
         try {
             const user = await this.answerRepository.findOne({
                 where: { id: id },
@@ -46,14 +46,12 @@ export class AnswerService {
         }
     }
 
-    async createAnswer(createAnswerDto: CreateAnswerDto) {
+    async create(createAnswerDto: CreateAnswerDto) {
         try {
             const { userId, questionId, ...rest } = createAnswerDto;
 
-            const user = await this.userService.getUserById(userId);
-            const question = await this.questionService.getQuestionById(
-                questionId,
-            );
+            const user = await this.userService.findOne(userId);
+            const question = await this.questionService.findOne(questionId);
 
             if (!question) {
                 throw new HttpException(
@@ -81,7 +79,7 @@ export class AnswerService {
         }
     }
 
-    async updateAnswer(id: number, updateAnswerDto: UpdateAnswerDto) {
+    async update(id: number, updateAnswerDto: UpdateAnswerDto) {
         try {
             const res = await this.answerRepository.update(id, {
                 ...updateAnswerDto,
@@ -101,7 +99,7 @@ export class AnswerService {
         }
     }
 
-    async deleteAnswer(id: number) {
+    async delete(id: number) {
         try {
             const res = await this.answerRepository.delete(id);
             if (res.affected === 1) {

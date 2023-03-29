@@ -22,7 +22,7 @@ export class AnswerController {
 
     @Get('/')
     public async getAll(@Query() queryInput: FilterAnswerDto) {
-        return await this.answerService.getAllAnswer(queryInput);
+        return await this.answerService.getAll(queryInput);
     }
 
     @Post('/create')
@@ -33,7 +33,7 @@ export class AnswerController {
     ) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { questionId: _questionId, ...rest } = createAnswerDto;
-        const res = this.answerService.createAnswer({ ...rest, questionId });
+        const res = this.answerService.create({ ...rest, questionId });
         return response.send(res);
     }
 
@@ -43,7 +43,7 @@ export class AnswerController {
         @Body() updateAnswerDto: UpdateAnswerDto,
         @Res() response: Response,
     ) {
-        const res = this.answerService.updateAnswer(id, { ...updateAnswerDto });
+        const res = this.answerService.update(id, { ...updateAnswerDto });
         return response.send(res);
     }
 
@@ -52,7 +52,7 @@ export class AnswerController {
         @Param('id', ParseIntPipe) id: number,
         @Res() response: Response,
     ) {
-        const res = await this.answerService.deleteAnswer(id);
+        const res = await this.answerService.delete(id);
         return response.send(res);
     }
 }

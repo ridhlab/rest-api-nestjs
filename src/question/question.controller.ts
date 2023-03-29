@@ -23,7 +23,7 @@ export class QuestionController {
 
     @Get('/')
     public async getAll(@Query() queryInput: FilterQuestionDto) {
-        return await this.questionService.getAllQuestion(queryInput);
+        return await this.questionService.getAll(queryInput);
     }
 
     @Post('/create')
@@ -31,7 +31,7 @@ export class QuestionController {
         @Body() createQuestionDto: CreateQuestionDto,
         @Res() response: Response,
     ) {
-        const res = await this.questionService.createQuestion({
+        const res = await this.questionService.create({
             ...createQuestionDto,
         });
         return response.send(res);
@@ -43,7 +43,7 @@ export class QuestionController {
         @Param('id', ParseIntPipe) id: number,
         @Res() response: Response,
     ) {
-        const res = await this.questionService.updateQuestion(id, {
+        const res = await this.questionService.update(id, {
             ...updateUserDto,
         });
         return response.send(res);
@@ -54,7 +54,7 @@ export class QuestionController {
         @Param('id', ParseIntPipe) id: number,
         @Res() response: Response,
     ) {
-        const res = await this.questionService.deleteQuestion(id);
+        const res = await this.questionService.delete(id);
         return response.send(res);
     }
 }

@@ -19,7 +19,7 @@ export class UserController {
 
     @Get('/')
     public async getAll() {
-        return await this.userService.getAllUser();
+        return await this.userService.getAll();
     }
 
     @Post('/create')
@@ -27,7 +27,7 @@ export class UserController {
         @Body() createUserDto: CreateUserDto,
         @Res() response: Response,
     ) {
-        const res = await this.userService.addUser({ ...createUserDto });
+        const res = await this.userService.create({ ...createUserDto });
         return response.send(res);
     }
 
@@ -37,13 +37,13 @@ export class UserController {
         @Param('id') id: string,
         @Res() response: Response,
     ) {
-        const res = await this.userService.updateUser(id, { ...updateUserDto });
+        const res = await this.userService.update(id, { ...updateUserDto });
         return response.send(res);
     }
 
     @Delete('/:id/delete')
     public async delete(@Param('id') id: string, @Res() response: Response) {
-        const res = await this.userService.deleteUser(id);
+        const res = await this.userService.delete(id);
         return response.send(res);
     }
 }

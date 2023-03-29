@@ -11,7 +11,7 @@ export class UserService {
         @InjectRepository(User) private userRepository: Repository<User>,
     ) {}
 
-    async getAllUser() {
+    async getAll() {
         try {
             const res = await this.userRepository.find();
             return {
@@ -24,7 +24,7 @@ export class UserService {
         }
     }
 
-    async getUserById(id: string) {
+    async findOne(id: string) {
         try {
             const user = await this.userRepository.findOne({
                 where: { id: id },
@@ -35,7 +35,7 @@ export class UserService {
         }
     }
 
-    async addUser(createUserDto: CreateUserDto) {
+    async create(createUserDto: CreateUserDto) {
         try {
             const newUser = this.userRepository.create({
                 ...createUserDto,
@@ -54,7 +54,7 @@ export class UserService {
         }
     }
 
-    async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    async update(id: string, updateUserDto: UpdateUserDto) {
         try {
             const res = await this.userRepository.update(id, {
                 ...updateUserDto,
@@ -74,7 +74,7 @@ export class UserService {
         }
     }
 
-    async deleteUser(id: string) {
+    async delete(id: string) {
         try {
             const res = await this.userRepository.delete(id);
             if (res.affected === 1) {

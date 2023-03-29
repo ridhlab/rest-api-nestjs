@@ -15,7 +15,7 @@ export class QuestionService {
         private userService: UserService,
     ) {}
 
-    async getAllQuestion(filters: FilterQuestionDto) {
+    async getAll(filters: FilterQuestionDto) {
         try {
             const res = await this.questionRepository.find({
                 relations: { user: true },
@@ -33,7 +33,7 @@ export class QuestionService {
         }
     }
 
-    async getQuestionById(id: number) {
+    async findOne(id: number) {
         try {
             const question = await this.questionRepository.findOne({
                 where: { id: id },
@@ -44,10 +44,10 @@ export class QuestionService {
         }
     }
 
-    async createQuestion(createQuestionDto: CreateQuestionDto) {
+    async create(createQuestionDto: CreateQuestionDto) {
         try {
             const { userId, ...rest } = createQuestionDto;
-            const user = await this.userService.getUserById(userId);
+            const user = await this.userService.findOne(userId);
             if (!user) {
                 throw new HttpException(
                     'User is not valid',
@@ -69,7 +69,7 @@ export class QuestionService {
         }
     }
 
-    async updateQuestion(id: number, updateQuestionDto: UpdateQuestionDto) {
+    async update(id: number, updateQuestionDto: UpdateQuestionDto) {
         try {
             const res = await this.questionRepository.update(id, {
                 ...updateQuestionDto,
@@ -89,7 +89,7 @@ export class QuestionService {
         }
     }
 
-    async deleteQuestion(id: number) {
+    async delete(id: number) {
         try {
             const res = await this.questionRepository.delete(id);
             if (res.affected === 1) {
