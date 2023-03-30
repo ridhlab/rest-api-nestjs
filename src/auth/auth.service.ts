@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
@@ -35,10 +35,10 @@ export class AuthService {
                 createUserDto.username,
             );
             if (user) {
-                return {
-                    status: HttpStatus.BAD_REQUEST,
-                    message: 'Username is already used',
-                };
+                throw new HttpException(
+                    HttpStatus.BAD_REQUEST,
+                    'Username is already used',
+                );
             }
             const newUser = this.userRepository.create(createUserDto);
             const res = await this.userRepository.save(newUser);

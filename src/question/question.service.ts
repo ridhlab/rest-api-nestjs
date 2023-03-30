@@ -76,10 +76,7 @@ export class QuestionService {
                     message: 'Question has been updated',
                 };
             }
-            return {
-                status: HttpStatus.BAD_REQUEST,
-                message: 'Bad Request',
-            };
+            throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
         } catch (error) {
             throw error;
         }
@@ -94,10 +91,7 @@ export class QuestionService {
                     status: HttpStatus.CREATED,
                 };
             }
-            return {
-                status: HttpStatus.BAD_REQUEST,
-                message: 'Bad Request',
-            };
+            throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
         } catch (error) {
             throw error;
         }

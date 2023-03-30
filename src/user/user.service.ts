@@ -66,10 +66,7 @@ export class UserService {
                     message: 'User has been updated',
                 };
             }
-            return {
-                status: HttpStatus.BAD_REQUEST,
-                message: 'Bad Request',
-            };
+            throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
         } catch (error) {
             throw error;
         }
@@ -84,10 +81,7 @@ export class UserService {
                     status: HttpStatus.CREATED,
                 };
             }
-            return {
-                status: HttpStatus.BAD_REQUEST,
-                message: 'Bad Request',
-            };
+            throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
         } catch (error) {
             throw error;
         }
