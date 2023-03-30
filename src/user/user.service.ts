@@ -25,14 +25,15 @@ export class UserService {
     }
 
     async findOne(id: string) {
-        try {
-            const user = await this.userRepository.findOne({
-                where: { id: id },
-            });
-            return user;
-        } catch (error) {
-            throw error;
-        }
+        const user = await this.userRepository.findOne({
+            where: { id: id },
+        });
+        return user;
+    }
+
+    async findByUsername(username: string) {
+        const user = await this.userRepository.findOne({ where: { username } });
+        return user;
     }
 
     async create(createUserDto: CreateUserDto) {

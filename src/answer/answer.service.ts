@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { QuestionService } from 'src/question/question.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
-import { Answer } from './answer,entity';
+import { Answer } from './answer.entity';
 import { CreateAnswerDto } from './dtos/CreateAnswer.dto';
 import { FilterAnswerDto } from './dtos/FilterAnswer.dto';
 import { UpdateAnswerDto } from './dtos/UpdateAnswer.dto';
@@ -36,14 +36,10 @@ export class AnswerService {
     }
 
     async findOne(id: number) {
-        try {
-            const user = await this.answerRepository.findOne({
-                where: { id: id },
-            });
-            return user;
-        } catch (error) {
-            throw error;
-        }
+        const user = await this.answerRepository.findOne({
+            where: { id: id },
+        });
+        return user;
     }
 
     async create(createAnswerDto: CreateAnswerDto) {

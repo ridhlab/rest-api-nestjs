@@ -34,14 +34,10 @@ export class QuestionService {
     }
 
     async findOne(id: number) {
-        try {
-            const question = await this.questionRepository.findOne({
-                where: { id: id },
-            });
-            return question;
-        } catch (error) {
-            throw error;
-        }
+        const question = await this.questionRepository.findOne({
+            where: { id: id },
+        });
+        return question;
     }
 
     async create(createQuestionDto: CreateQuestionDto) {
