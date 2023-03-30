@@ -7,7 +7,8 @@ import { UserModule } from './user/user.module';
 import { QuestionModule } from './question/question.module';
 import { Question } from './question/question.entity';
 import { AnswerModule } from './answer/answer.module';
-import { Answer } from './answer/answer,entity';
+import { Answer } from './answer/answer.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { Answer } from './answer/answer,entity';
             entities: [User, Question, Answer],
             synchronize: true,
         }),
+        AuthModule,
         UserModule,
         QuestionModule,
         AnswerModule,

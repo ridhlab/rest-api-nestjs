@@ -1,4 +1,4 @@
-import { Answer } from 'src/answer/answer,entity';
+import { Answer } from 'src/answer/answer.entity';
 import { Question } from 'src/question/question.entity';
 import {
     Entity,
@@ -7,7 +7,10 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     OneToMany,
+    BeforeInsert,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { SALT_OR_ROUNDS } from 'src/auth/auth.constants';
 
 @Entity()
 export class User {
@@ -20,6 +23,9 @@ export class User {
     @Column({ type: 'text', unique: true })
     username: string;
 
+    @Column('text')
+    password: string;
+
     @OneToMany(() => Question, (question) => question.user)
     questions: Question[];
 
@@ -31,4 +37,10 @@ export class User {
 
     @UpdateDateColumn()
     updateddAt: Date;
+
+    // Hash password
+    @BeforeInsert()
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password, SALT_OR_ROUNDS);
+    }
 }
