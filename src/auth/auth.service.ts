@@ -1,4 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/user/dtos/CreateUser.dto';
@@ -13,8 +14,20 @@ export class AuthService {
 
     constructor(
         private userService: UserService,
+        private jwtService: JwtService,
         @InjectRepository(User) private userRepository: Repository<User>,
     ) {}
+
+    async login(user: any) {
+        // payload is data that save in jwt
+        const payload = { name: user.name, sub: user.id };
+        return {
+            status: HttpStatus.OK,
+            message: 'Login successfully',
+            data: user,
+            access_token: this.jwtService.sign(payload),
+        };
+    }
 
     async register(createUserDto: CreateUserDto) {
         try {

@@ -8,9 +8,13 @@ import {
     Post,
     Put,
     Query,
+    Req,
     Res,
+    UnauthorizedException,
+    UseGuards,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
 import { CreateQuestionDto } from './dtos/CreateQuestion.dto';
 import { FilterQuestionDto } from './dtos/FilterQuestion.dto';
@@ -26,11 +30,17 @@ export class QuestionController {
         return await this.questionService.getAll(queryInput);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/create')
     public async create(
+        @Req() req: Request,
         @Body() createQuestionDto: CreateQuestionDto,
         @Res() response: Response,
     ) {
+        const idAuthUser = (req.user as any).id;
+        if (createQuestionDto.userId !== idAuthUser) {
+            throw new UnauthorizedException();
+        }
         const res = await this.questionService.create({
             ...createQuestionDto,
         });

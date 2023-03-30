@@ -17,11 +17,7 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@Request() req) {
-        return {
-            status: HttpStatus.OK,
-            message: 'Login successfully',
-            data: req.user,
-        };
+        return this.authService.login(req.user);
     }
 
     @Post('register')
