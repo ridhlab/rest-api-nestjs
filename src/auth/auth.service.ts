@@ -36,8 +36,8 @@ export class AuthService {
             );
             if (user) {
                 throw new HttpException(
-                    HttpStatus.BAD_REQUEST,
                     'Username is already used',
+                    HttpStatus.BAD_REQUEST,
                 );
             }
             const newUser = this.userRepository.create(createUserDto);
