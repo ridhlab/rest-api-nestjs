@@ -18,14 +18,18 @@ export class AuthService {
         @InjectRepository(User) private userRepository: Repository<User>,
     ) {}
 
-    async login(user: any) {
+    generateToken(user: any) {
         // payload is data that save in jwt
         const payload = { name: user.name, sub: user.id };
+        return this.jwtService.sign(payload);
+    }
+
+    async login(user: any) {
         return {
             status: HttpStatus.OK,
             message: 'Login successfully',
             data: user,
-            access_token: this.jwtService.sign(payload),
+            access_token: this.generateToken(user),
         };
     }
 
@@ -46,6 +50,7 @@ export class AuthService {
                 status: HttpStatus.CREATED,
                 message: 'User created',
                 data: res,
+                access_token: this.generateToken(newUser),
             };
         } catch (error) {
             throw error;
