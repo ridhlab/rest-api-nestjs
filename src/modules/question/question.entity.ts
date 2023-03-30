@@ -1,5 +1,5 @@
-import { Answer } from 'src/answer/answer.entity';
-import { User } from 'src/user/user.entity';
+import { Answer } from 'src/modules/answer/answer.entity';
+import { User } from 'src/modules/user/user.entity';
 import {
     Entity,
     Column,

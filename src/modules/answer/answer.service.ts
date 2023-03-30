@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QuestionService } from 'src/question/question.service';
-import { UserService } from 'src/user/user.service';
+import { QuestionService } from 'src/modules/question/question.service';
+import { UserService } from 'src/modules/user/user.service';
 import { Repository } from 'typeorm';
 import { Answer } from './answer.entity';
 import { CreateAnswerDto } from './dtos/CreateAnswer.dto';

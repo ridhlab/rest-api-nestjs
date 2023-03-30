@@ -2,9 +2,9 @@ import { HttpStatus, Injectable, HttpException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from 'src/user/dtos/CreateUser.dto';
-import { User } from 'src/user/user.entity';
-import { UserService } from 'src/user/user.service';
+import { CreateUserDto } from 'src/modules/user/dtos/CreateUser.dto';
+import { User } from 'src/modules/user/user.entity';
+import { UserService } from 'src/modules/user/user.service';
 import { Repository } from 'typeorm';
 import { SALT_OR_ROUNDS } from './auth.constants';
 

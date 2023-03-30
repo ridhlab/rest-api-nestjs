@@ -1,5 +1,5 @@
-import { Answer } from 'src/answer/answer.entity';
-import { Question } from 'src/question/question.entity';
+import { Answer } from 'src/modules/answer/answer.entity';
+import { Question } from 'src/modules/question/question.entity';
 import {
     Entity,
     Column,
@@ -10,7 +10,7 @@ import {
     BeforeInsert,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { SALT_OR_ROUNDS } from 'src/auth/auth.constants';
+import { SALT_OR_ROUNDS } from 'src/modules/auth/auth.constants';
 
 @Entity()
 export class User {

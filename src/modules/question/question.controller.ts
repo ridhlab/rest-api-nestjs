@@ -14,7 +14,7 @@ import {
     UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
 import { CreateQuestionDto } from './dtos/CreateQuestion.dto';
 import { FilterQuestionDto } from './dtos/FilterQuestion.dto';
