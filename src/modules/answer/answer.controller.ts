@@ -9,8 +9,10 @@ import {
     Put,
     Query,
     Res,
+    UseGuards,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { AnswerService } from './answer.service';
 import { CreateAnswerDto } from './dtos/CreateAnswer.dto';
 import { FilterAnswerDto } from './dtos/FilterAnswer.dto';
@@ -25,6 +27,7 @@ export class AnswerController {
         return await this.answerService.getAll(queryInput);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/create')
     public async create(
         @Body('questionId', ParseIntPipe) questionId: number,
@@ -37,6 +40,7 @@ export class AnswerController {
         return response.send(res);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put('/:id/update')
     public async update(
         @Param('id', ParseIntPipe) id: number,
@@ -47,6 +51,7 @@ export class AnswerController {
         return response.send(res);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete('/:id/delete')
     public async delete(
         @Param('id', ParseIntPipe) id: number,

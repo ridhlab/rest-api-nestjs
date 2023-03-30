@@ -1,9 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dtos/CreateUser.dto';
 import { UpdateUserDto } from './dtos/UpdateUser.dto';
 import { User } from './user.entity';
+import { SALT_OR_ROUNDS } from '../auth/auth.constants';
 
 @Injectable()
 export class UserService {
@@ -57,8 +59,16 @@ export class UserService {
 
     async update(id: string, updateUserDto: UpdateUserDto) {
         try {
+            let hashPassword;
+            if (updateUserDto.password) {
+                hashPassword = await bcrypt.hash(
+                    updateUserDto.password,
+                    SALT_OR_ROUNDS,
+                );
+            }
             const res = await this.userRepository.update(id, {
                 ...updateUserDto,
+                ...(hashPassword && { password: hashPassword }),
             });
             if (res.affected === 1) {
                 return {

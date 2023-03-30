@@ -47,18 +47,21 @@ export class QuestionController {
         return response.send(res);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put('/:id/update')
     public async update(
-        @Body() updateUserDto: UpdateQuestionDto,
+        @Req() req: Request,
+        @Body() updateQuestionDto: UpdateQuestionDto,
         @Param('id', ParseIntPipe) id: number,
         @Res() response: Response,
     ) {
         const res = await this.questionService.update(id, {
-            ...updateUserDto,
+            ...updateQuestionDto,
         });
         return response.send(res);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete('/:id/delete')
     public async delete(
         @Param('id', ParseIntPipe) id: number,
